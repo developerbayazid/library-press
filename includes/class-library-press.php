@@ -154,6 +154,7 @@ class Library_Press {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'library_press_menu' );
+		$this->loader->add_action( 'wp_ajax_library_press_book_shelf_form', $plugin_admin, 'book_shelf_handle_admin_ajax' );
 	}
 
 	/**
@@ -169,7 +170,6 @@ class Library_Press {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'wp_ajax_library_press_book_shelf_form', $plugin_public, 'handle_admin_ajax' );
 	}
 
 	/**

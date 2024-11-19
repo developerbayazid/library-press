@@ -22,7 +22,7 @@
 								</div>
 							</div>
                             <div class="row mb-3">
-								<label for="location" class="col-sm-2 col-form-label"><?php _e( 'Location', 'library-press' ); ?></label>
+								<label for="location" class="col-sm-2 col-form-label"><?php _e( 'Shelf Location', 'library-press' ); ?></label>
 								<div class="col-sm-6">
 								    <input type="text" class="form-control" id="location" name="location" value="" placeholder="<?php esc_attr_e( __('Enter Location', 'library-press') ) ?>">
 								</div>
@@ -42,7 +42,7 @@
                                     <input type="hidden" name="action" value="library_press_book_shelf_form">
                                 </div>
 								<div class="col-sm-6">
-                                    <button type="submit" class="btn btn-primary"><?php _e('Submit', 'library-press'); ?></button>
+                                    <button id="book_shelf_form_btn" type="submit" class="btn btn-primary"><?php _e('Submit', 'library-press'); ?></button>
 								</div>
 							</div>
 						</form>

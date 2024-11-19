@@ -110,7 +110,6 @@ class Library_Press_Admin {
 				$this->plugin_name,
 				'lp_book',
 				array(
-					// 'ajax_url' => admin_url( 'admin-ajax.php' ),
 					'_wpnonce' => wp_create_nonce( 'book-shelf-form' ),
 				)
 			);
@@ -229,29 +228,42 @@ class Library_Press_Admin {
 	public function library_press_book_list() {
 		ob_start();
 		include_once LIBRARY_PRESS_PLUGIN_PATH . 'admin/partials/library-press-list-book.php';
-		// phpcs:disable
-		echo ob_get_clean();
-		// phpcs:enable
+		echo ob_get_clean(); // phpcs:ignore
 	}
 
 	/**
-	 * Ajax handler
+	 * Book shelf form ajax handler
 	 *
 	 * @return void
 	 */
-	public function handle_admin_ajax() {
-		if ( ! wp_verify_nonce( ! empty( $_REQUEST['_wpnonce'] ), 'book-shelf-form' ) ) {
-			wp_send_json_error(
-				array(
-					'message' => 'Nonce verification failed!',
-				)
-			);
-			wp_die( 'Are You cheating?' );
+	public function book_shelf_handle_admin_ajax() {
+		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+			wp_send_json_error( array( 'message' => 'Nonce is missing' ), 400 );
+		}
+
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'book-shelf-form' ) ) {
+			wp_send_json_error( array( 'message' => 'Nonce verification failed' ), 403 );
+		}
+
+		$data = isset( $_REQUEST['data'] ) ? $_REQUEST['data'] : ''; // phpcs:ignore
+
+		$name     = $data['name'] ? sanitize_text_field( $data['name'] ) : '';
+		$capacity = $data['capacity'] ? intval( $data['capacity'] ) : 0;
+		$location = $data['location'] ? sanitize_text_field( $data['location'] ) : '';
+		$status   = $data['status'] ? sanitize_text_field( $data['status'] ) : '';
+
+		if ( ! $name || ! $capacity || ! $location || ! $status ) {
+			wp_send_json_error( array( 'message' => 'Require field empty not allow' ), 406 );
 		}
 
 		wp_send_json_success(
 			array(
-				'message' => 'Data has been sent Successfully!',
+				'data'     => $data,
+				'name'     => $name,
+				'capacity' => $capacity,
+				'location' => $location,
+				'status'   => $status,
+				'message'  => 'Data has been sent successfully!',
 			)
 		);
 	}

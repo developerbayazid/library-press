@@ -8,7 +8,7 @@
 				<div class="card mw-100">
 					<h3 class="text-center bg-primary text-white py-2"><?php _e( 'Create Book', 'library-press' ); ?></h2>
 					<div class="card-body">
-						<form action="" method="post">
+						<form id="book_form" action="" method="post">
 							<div class="row mb-3">
 								<label for="name" class="col-sm-2 col-form-label"><?php _e( 'Name', 'library-press' ); ?></label>
 								<div class="col-sm-6">
@@ -60,7 +60,7 @@
                                     <input type="hidden" name="action" value="library_press_book_form">
                                 </div>
 								<div class="col-sm-6">
-                                    <button type="submit" class="btn btn-primary"><?php _e('Submit', 'library-press'); ?></button>
+                                    <button id="book_form_btn" type="submit" class="btn btn-primary"><?php _e('Submit', 'library-press'); ?></button>
 								</div>
 							</div>
 						</form>

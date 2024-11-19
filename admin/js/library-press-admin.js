@@ -11,26 +11,24 @@
     $('#book_shelf_form').on('submit', function (e) {
         e.preventDefault();
 
-        // $.ajax({
-        //     method: 'POST',
-        //     url: lp_book.ajax_url,
-        //     data: {
-        //         action: 'library_press_book_shelf_form',
-        //         _wpnonce: lp_book._wpnonce,
-        //     },
-        //     success: function (response) {
-        //         console.log(response);
-        //     },
-        // });
+        var formData = {
+            name: $('#name').val(),
+            capacity: $('#capacity').val(),
+            location: $('#location').val(),
+            status: $('#status').val(),
+            _wpnonce: $('#_wpnonce').val(),
+        };
+
         wp.ajax
             .post('library_press_book_shelf_form', {
-                _wpnonce: lp_book._wpnonce,
+                _wpnonce: formData._wpnonce,
+                data: formData,
             })
             .done(function (response) {
-                console.log(response);
+                alert(response.message);
             })
-            .fail(function () {
-                alert('something');
+            .fail(function (response) {
+                alert(response.responseJSON.data.message);
             });
     });
 })(jQuery);
