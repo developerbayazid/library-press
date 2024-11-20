@@ -50,6 +50,7 @@ class Library_Press_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
+		require_once LIBRARY_PRESS_PLUGIN_PATH . 'functions.php';
 	}
 
 	/**
@@ -106,13 +107,6 @@ class Library_Press_Admin {
 			);
 			$this->admin_enqueue_scripts( $scripts, array( 'jquery' ) );
 			wp_enqueue_script( $this->plugin_name, LIBRARY_PRESS_PLUGIN_URL . 'admin/js/library-press-admin.js', array( 'jquery', 'wp-util' ), $this->version, true );
-			wp_localize_script(
-				$this->plugin_name,
-				'lp_book',
-				array(
-					'_wpnonce' => wp_create_nonce( 'book-shelf-form' ),
-				)
-			);
 		}
 	}
 
@@ -189,9 +183,7 @@ class Library_Press_Admin {
 	public function library_press_create_book_shelf() {
 		ob_start();
 		include_once LIBRARY_PRESS_PLUGIN_PATH . 'admin/partials/library-press-create-book-shelf.php';
-		// phpcs:disable
-		echo ob_get_clean();
-		// phpcs:enable
+		echo ob_get_clean(); // phpcs:ignore
 	}
 
 	/**
@@ -200,11 +192,10 @@ class Library_Press_Admin {
 	 * @return void
 	 */
 	public function library_press_list_book_shelf() {
+		$book_shelf_list = lp_get_data( 'library_press_tbl_book_shelf' );
 		ob_start();
 		include_once LIBRARY_PRESS_PLUGIN_PATH . 'admin/partials/library-press-list-book-shelf.php';
-		// phpcs:disable
-		echo ob_get_clean();
-		// phpcs:enable
+		echo ob_get_clean(); // phpcs:ignore
 	}
 
 	/**
@@ -213,11 +204,18 @@ class Library_Press_Admin {
 	 * @return void
 	 */
 	public function library_press_create_book() {
+		global $wpdb;
+
+		$book_shelf = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT id, shelf_name FROM %i',
+				$wpdb->prefix . 'library_press_tbl_book_shelf'
+			)
+		);
+
 		ob_start();
 		include_once LIBRARY_PRESS_PLUGIN_PATH . 'admin/partials/library-press-create-book.php';
-		// phpcs:disable
-		echo ob_get_clean();
-		// phpcs:enable
+		echo ob_get_clean(); // phpcs:ignore
 	}
 
 	/**
@@ -251,20 +249,50 @@ class Library_Press_Admin {
 		$capacity = $data['capacity'] ? intval( $data['capacity'] ) : 0;
 		$location = $data['location'] ? sanitize_text_field( $data['location'] ) : '';
 		$status   = $data['status'] ? sanitize_text_field( $data['status'] ) : '';
+		$status   = 'active' === $status ? intval( 1 ) : intval( 0 );
 
-		if ( ! $name || ! $capacity || ! $location || ! $status ) {
+		if ( ! $name || ! $capacity || ! $location ) {
 			wp_send_json_error( array( 'message' => 'Require field empty not allow' ), 406 );
 		}
 
-		wp_send_json_success(
-			array(
-				'data'     => $data,
-				'name'     => $name,
-				'capacity' => $capacity,
-				'location' => $location,
-				'status'   => $status,
-				'message'  => 'Data has been sent successfully!',
-			)
+		$args = array(
+			'shelf_name'     => $name,
+			'capacity'       => $capacity,
+			'shelf_location' => $location,
+			'status'         => $status,
 		);
+
+		$inserted = lp_insert_data( $args );
+
+		if ( $inserted ) {
+			wp_send_json_success(
+				array(
+					'data'    => $data,
+					'message' => 'Data has been sent successfully!',
+				)
+			);
+		} else {
+			wp_send_json_error( array( 'message' => 'Data not inserted!' ), 410 );
+		}
+	}
+
+	/**
+	 * Book shelf delete handler
+	 *
+	 * @return void
+	 */
+	public function book_shelf_delete_data_handler() {
+		$id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0; // phpcs:ignore
+		if ( ! $id ) {
+			wp_send_json_error( array( 'message' => 'Id not found!' ), 400 );
+		} else {
+			lp_delete_data( $id, 'library_press_tbl_book_shelf' );
+			wp_send_json_success(
+				array(
+					'message' => 'Book Shelf has been deleted successfully!',
+					'status'  => 1,
+				)
+			);
+		}
 	}
 }

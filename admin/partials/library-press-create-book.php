@@ -6,13 +6,32 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card mw-100">
-					<h3 class="text-center bg-primary text-white py-2"><?php _e( 'Create Book', 'library-press' ); ?></h2>
+					<div class="card-header">
+						<h3 class="text-center py-2"><?php _e( 'Create Book', 'library-press' ); ?></h2>
+					</div>
 					<div class="card-body">
 						<form id="book_form" action="" method="post">
 							<div class="row mb-3">
+								<label for="dd-book-shelf" class="col-sm-2 col-form-label"><?php _e( 'Select Book Shelf', 'library-press' ); ?></label>
+								<div class="col-sm-6">
+								    <select name="dd-book-shelf" class="form-control" id="dd-book-shelf" required>
+										<option selected disabled value="">Choose Book Shelf</option>
+										<?php 
+											if ( count( $book_shelf ) > 0 ):
+												foreach ($book_shelf as $book_shelf):
+												?>
+													<option value="<?php esc_attr_e( $book_shelf->id ); ?>"><?php _e( $book_shelf->shelf_name, 'library-press' ); ?></option>
+												<?php
+												endforeach;
+											endif; 
+										?>
+                                    </select>
+								</div>
+							</div>
+							<div class="row mb-3">
 								<label for="name" class="col-sm-2 col-form-label"><?php _e( 'Name', 'library-press' ); ?></label>
 								<div class="col-sm-6">
-								    <input type="text" class="form-control" id="name" name="name" value="" placeholder="<?php esc_attr_e( __('Enter Name', 'library-press') ) ?>">
+								    <input type="text" class="form-control" id="name" name="name" value="" placeholder="<?php esc_attr_e( __('Enter Book Name', 'library-press') ) ?>">
 								</div>
 							</div>
                             <div class="row mb-3">

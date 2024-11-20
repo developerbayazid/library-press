@@ -6,7 +6,9 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card mw-100">
-					<h3 class="text-center bg-primary text-white py-2"><?php _e( 'Create Book Shelf', 'library-press' ); ?></h2>
+					<div class="card-header">
+						<h3 class="text-center py-2"><?php _e( 'Create Book Shelf', 'library-press' ); ?></h2>
+					</div>
 					<div class="card-body">
 						<form id="book_shelf_form" action="" method="post">
 							<div class="row mb-3">
