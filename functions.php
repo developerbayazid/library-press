@@ -8,12 +8,12 @@
  */
 
 /**
- * Insert to data to database
+ * Insert data to database
  *
  * @param array $args ti will return a array with values.
  * @return int
  */
-function lp_insert_data( $args = array() ) {
+function lp_insert_book_shelf( $args = array() ) {
 	global $wpdb;
 
 	$defaults = array(
@@ -47,6 +47,53 @@ function lp_insert_data( $args = array() ) {
 }
 
 /**
+ * Insert data to database
+ *
+ * @param array $args ti will return a array with values.
+ * @return int
+ */
+function lp_insert_book( $args = array() ) {
+	global $wpdb;
+
+	$defaults = array(
+		'name'        => '',
+		'email'       => '',
+		'publication' => '',
+		'amount'      => 1,
+		'description' => '',
+		'book_image'  => '',
+		'shelf_id'    => 0,
+		'status'      => 1,
+		'created_by'  => get_current_user_id(),
+		'created_at'  => current_time( 'mysql' ),
+	);
+
+	$data = wp_parse_args( $args, $defaults );
+
+	$inserted = $wpdb->insert(
+		"{$wpdb->prefix}library_press_tbl_books",
+		$data,
+		array(
+			'%s',
+			'%s',
+			'%s',
+			'%d',
+			'%s',
+			'%s',
+			'%d',
+			'%d',
+			'%d',
+			'%s',
+		),
+	);
+
+	if ( ! $inserted ) {
+		return new \WP_Error( 'failed-to-insert', __( 'Failed to insert data', 'library-press' ) );
+	}
+	return $wpdb->insert_id;
+}
+
+/**
  * Fetch data
  *
  * @param string $table_name table name here.
@@ -56,8 +103,8 @@ function lp_get_data( $table_name ) {
 	global $wpdb;
 	$items = $wpdb->get_results(
 		$wpdb->prepare(
-			'SELECT * FROM %i',
-			$wpdb->prefix . $table_name
+			'SELECT * FROM %i ORDER BY id DESC',
+			esc_sql( $wpdb->prefix . $table_name )
 		)
 	);
 	return $items;

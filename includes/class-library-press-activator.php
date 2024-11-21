@@ -35,10 +35,11 @@ class Library_Press_Activator {
 		$library_books = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}library_press_tbl_books` (
 			`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 			`name` VARCHAR(150) NULL DEFAULT NULL,
+			`email` VARCHAR(150) NULL DEFAULT NULL,
+			`publication` VARCHAR(150) NULL DEFAULT NULL,
 			`amount` INT NULL DEFAULT NULL,
 			`description` TEXT NULL DEFAULT NULL,
 			`book_image` VARCHAR(250) NULL DEFAULT NULL,
-			`language` VARCHAR(150) NULL DEFAULT NULL,
 			`shelf_id` INT NULL,
 			`status` INT NULL DEFAULT '1',
 			`created_by` BIGINT(20) UNSIGNED NOT NULL,

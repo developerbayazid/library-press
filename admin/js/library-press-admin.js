@@ -68,4 +68,55 @@
                 swal('Oops!', response.responseJSON.data.message, 'error');
             });
     });
+
+    $('#book-image').on('click', function () {
+        var image = wp
+            .media({
+                title: 'Upload book image',
+                multiple: false,
+            })
+            .open()
+            .on('select', function () {
+                var uploaded_image = image.state().get('selection');
+                uploaded_image = uploaded_image.toJSON()[0].url;
+                $('#book_uploaded_img').attr('src', uploaded_image);
+                $('#book_uploaded_img').attr('class', 'd-block mt-2');
+                $('#book_cover_image').val(uploaded_image);
+            });
+    });
+
+    $('#book_form').on('submit', function (e) {
+        e.preventDefault();
+
+        var formData = {
+            shelf_id: $('#dd-book-shelf').val(),
+            name: $('#name').val(),
+            email: $('#email').val(),
+            publication: $('#publication').val(),
+            description: $('#description').val(),
+            book_image: $('#book_cover_image').val(),
+            book_cost: $('#book-cost').val(),
+            status: $('#status').val(),
+            _wpnonce: $('#_wpnonce').val(),
+        };
+
+        wp.ajax
+            .post('library_press_book_form', {
+                _wpnonce: formData._wpnonce,
+                data: formData,
+            })
+            .done(function (response) {
+                swal('Good job!', response.message, 'success');
+
+                if ($('#book_form').length) {
+                    $('#book_form')[0].reset();
+                    $('#book_uploaded_img').attr('class', 'd-none');
+                } else {
+                    console.log('Form not found!');
+                }
+            })
+            .fail(function (response) {
+                swal('Oops!', response.responseJSON.data.message, 'error');
+            });
+    });
 })(jQuery);

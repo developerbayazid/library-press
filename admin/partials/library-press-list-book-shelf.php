@@ -20,10 +20,12 @@
                     <tbody>
                         <?php 
                             if ( count( $book_shelf_list ) > 0 ){
+                                $id = 0;
                                 foreach ($book_shelf_list as $key => $data) :
+                                    $id++;
                                     ?>
                                     <tr>
-                                        <td><?php echo $data->id; ?></td>
+                                        <td><?php echo $id; ?></td>
                                         <td><?php echo $data->shelf_name; ?></td>
                                         <td><?php echo intval( $data->capacity ); ?></td>
                                         <td><?php echo $data->shelf_location; ?></td>

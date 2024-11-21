@@ -224,6 +224,22 @@ class Library_Press_Admin {
 	 * @return void
 	 */
 	public function library_press_book_list() {
+		global $wpdb;
+
+		$table_books = $wpdb->prefix . 'library_press_tbl_books';
+		$table_shelf = $wpdb->prefix . 'library_press_tbl_book_shelf';
+
+		$book_list = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT book.*, shelf.shelf_name 
+				FROM %i AS book
+				LEFT JOIN %i AS shelf
+				ON book.shelf_id = shelf.id
+				ORDER BY book.id DESC',
+				$table_books,
+				$table_shelf,
+			),
+		);
 		ob_start();
 		include_once LIBRARY_PRESS_PLUGIN_PATH . 'admin/partials/library-press-list-book.php';
 		echo ob_get_clean(); // phpcs:ignore
@@ -252,7 +268,7 @@ class Library_Press_Admin {
 		$status   = 'active' === $status ? intval( 1 ) : intval( 0 );
 
 		if ( ! $name || ! $capacity || ! $location ) {
-			wp_send_json_error( array( 'message' => 'Require field empty not allow' ), 406 );
+			wp_send_json_error( array( 'message' => 'Require field empty not allow!' ), 406 );
 		}
 
 		$args = array(
@@ -262,7 +278,7 @@ class Library_Press_Admin {
 			'status'         => $status,
 		);
 
-		$inserted = lp_insert_data( $args );
+		$inserted = lp_insert_book_shelf( $args );
 
 		if ( $inserted ) {
 			wp_send_json_success(
@@ -293,6 +309,61 @@ class Library_Press_Admin {
 					'status'  => 1,
 				)
 			);
+		}
+	}
+
+	/**
+	 * Book form ajax handler
+	 *
+	 * @return void
+	 */
+	public function book_form_handle_admin_ajax() {
+		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+			wp_send_json_error( array( 'message' => 'Nonce is missing' ), 400 );
+		}
+
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'book-form' ) ) {
+			wp_send_json_error( array( 'message' => 'Nonce verification failed' ), 403 );
+		}
+
+		$data = isset( $_REQUEST['data'] ) ? $_REQUEST['data'] : ''; // phpcs:ignore
+
+		$name        = $data['name'] ? sanitize_text_field( $data['name'] ) : '';
+		$email       = $data['email'] ? sanitize_text_field( $data['email'] ) : '';
+		$book_cost   = $data['book_cost'] ? intval( $data['book_cost'] ) : '';
+		$description = $data['description'] ? sanitize_textarea_field( $data['description'] ) : '';
+		$book_image  = $data['book_image'] ? sanitize_text_field( $data['book_image'] ) : '';
+		$publication = $data['publication'] ? sanitize_text_field( $data['publication'] ) : '';
+		$shelf_id    = $data['shelf_id'] ? intval( $data['shelf_id'] ) : 0;
+		$status      = $data['status'] ? sanitize_text_field( $data['status'] ) : '';
+		$status      = 'active' === $status ? intval( 1 ) : intval( 0 );
+
+		if ( ! $name || ! $email || ! $book_cost || ! $publication || ! $shelf_id || ! $book_image ) {
+			wp_send_json_error( array( 'message' => 'Require field empty not allow!' ), 406 );
+		}
+
+		$args = array(
+			'name'        => $name,
+			'email'       => $email,
+			'publication' => $publication,
+			'amount'      => $book_cost,
+			'description' => $description,
+			'book_image'  => $book_image,
+			'shelf_id'    => $shelf_id,
+			'status'      => $status,
+		);
+
+		$inserted = lp_insert_book( $args );
+
+		if ( $inserted ) {
+			wp_send_json_success(
+				array(
+					'data'    => $data,
+					'message' => 'Book has been created successfully!',
+				)
+			);
+		} else {
+			wp_send_json_error( array( 'message' => 'Book not inserted!' ), 410 );
 		}
 	}
 }

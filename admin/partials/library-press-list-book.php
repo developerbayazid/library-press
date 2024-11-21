@@ -11,23 +11,59 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Shelf Name</th>
                             <th>Email</th>
                             <th>Publication</th>
                             <th>Book Cover</th>
                             <th>Price</th>
+                            <th>Description</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        <?php 
+                            if( count( $book_list ) > 0 ) :
+                                $id = 0;
+                                foreach ($book_list as $book) :
+                                $id++;
+                                ?>
+                                <tr>
+                                    <td><?php echo $id; ?></td>
+                                    <td><?php echo $book->name; ?></td>
+                                    <td><?php echo $book->shelf_name ? : '<i>No Shelf</i>' ?></td>
+                                    <td><?php echo $book->email; ?></td>
+                                    <td><?php echo $book->publication; ?></td>
+                                    <td>
+                                        <img style="width: 40px; height: 40px;" src="<?php echo $book->book_image; ?>">
+                                    </td>
+                                    <td>$<?php echo $book->amount; ?></td>
+                                    <td><?php echo $book->description; ?></td>
+                                    <td>
+                                        <?php if ( $book->status == 1 ): ?>
+                                            <button class="btn btn-success"><?php echo _e('Active', 'library-press'); ?></button>
+                                        <?php elseif ( $book->status == 0 ) : ?>
+                                            <button class="btn btn-danger"><?php echo _e('In Active', 'library-press'); ?></button>
+                                        <?php endif ?>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger delete-btn-book" data-id="<?php echo $book->id; ?>"><?php echo _e('Delete', 'library-press'); ?></button>
+                                    </td>
+                                </tr>
+                                <?php endforeach;
+                            endif;
+                        ?>
+                    </tbody>
                     <tfoot>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Shelf Name</th>
                             <th>Email</th>
                             <th>Publication</th>
                             <th>Book Cover</th>
                             <th>Price</th>
+                            <th>Description</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
