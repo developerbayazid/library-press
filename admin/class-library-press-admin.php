@@ -155,25 +155,16 @@ class Library_Press_Admin {
 	 * @return void
 	 */
 	public function library_press_menu() {
-		$parent_slug = 'library-press-dashboard';
+		$parent_slug = 'library-press-create-book-shelf';
 		$capability  = 'manage_options';
-		add_menu_page( __( 'LibraryPress', 'library-press' ), __( 'LibraryPress', 'library-press' ), $capability, $parent_slug, array( $this, 'library_press_dashboard' ), 'dashicons-book', 24 );
+		add_menu_page( __( 'LibraryPress', 'library-press' ), __( 'LibraryPress', 'library-press' ), $capability, $parent_slug, array( $this, 'library_press_create_book_shelf' ), 'dashicons-book', 24 );
 
-		add_submenu_page( $parent_slug, __( 'Dashboard', 'library-press' ), __( 'Dashboard', 'library-press' ), $capability, $parent_slug, array( $this, 'library_press_dashboard' ) );
-		add_submenu_page( $parent_slug, __( 'Create Book Shelf', 'library-press' ), __( 'Create Book Shelf', 'library-press' ), $capability, 'library-press-create-book-shelf', array( $this, 'library_press_create_book_shelf' ) );
+		add_submenu_page( $parent_slug, __( 'Create Book Shelf', 'library-press' ), __( 'Create Book Shelf', 'library-press' ), $capability, $parent_slug, array( $this, 'library_press_create_book_shelf' ) );
 		add_submenu_page( $parent_slug, __( 'Book Shelf List', 'library-press' ), __( 'Book Shelf List', 'library-press' ), $capability, 'library-press-list-book-shelf', array( $this, 'library_press_list_book_shelf' ) );
 		add_submenu_page( $parent_slug, __( 'Create Book', 'library-press' ), __( 'Create Book', 'library-press' ), $capability, 'library-press-create-book', array( $this, 'library_press_create_book' ) );
 		add_submenu_page( $parent_slug, __( 'Book List', 'library-press' ), __( 'Book List', 'library-press' ), $capability, 'library-press-book-list', array( $this, 'library_press_book_list' ) );
 	}
 
-	/**
-	 * Admin Menu callback function
-	 *
-	 * @return void
-	 */
-	public function library_press_dashboard() {
-		echo '<h2>Dashboard</h2>';
-	}
 
 	/**
 	 * Create book shelf function
@@ -364,6 +355,26 @@ class Library_Press_Admin {
 			);
 		} else {
 			wp_send_json_error( array( 'message' => 'Book not inserted!' ), 410 );
+		}
+	}
+
+	/**
+	 * Book delete handler
+	 *
+	 * @return void
+	 */
+	public function book_delete_data_handler() {
+		$id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0; // phpcs:ignore
+		if ( ! $id ) {
+			wp_send_json_error( array( 'message' => 'Id not found!' ), 400 );
+		} else {
+			lp_delete_data( $id, 'library_press_tbl_books' );
+			wp_send_json_success(
+				array(
+					'message' => 'Book has been deleted successfully!',
+					'status'  => 1,
+				)
+			);
 		}
 	}
 }

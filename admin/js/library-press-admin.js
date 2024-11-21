@@ -69,6 +69,9 @@
             });
     });
 
+    /**
+     * Upload media handler
+     */
     $('#book-image').on('click', function () {
         var image = wp
             .media({
@@ -85,6 +88,9 @@
             });
     });
 
+    /**
+     * Ajax handle data insert from book
+     */
     $('#book_form').on('submit', function (e) {
         e.preventDefault();
 
@@ -113,6 +119,32 @@
                     $('#book_uploaded_img').attr('class', 'd-none');
                 } else {
                     console.log('Form not found!');
+                }
+            })
+            .fail(function (response) {
+                swal('Oops!', response.responseJSON.data.message, 'error');
+            });
+    });
+
+    /**
+     * Ajax handler book delete data
+     */
+    $('.delete-btn-book').on('click', function (e) {
+        var id = $(this).attr('data-id');
+        wp.ajax
+            .post('book_delete', {
+                id: id,
+            })
+            .done(function (response) {
+                if (response.status == 1) {
+                    swal(
+                        'Done!',
+                        'Book shelf deleted successfully!',
+                        'success'
+                    );
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
                 }
             })
             .fail(function (response) {
