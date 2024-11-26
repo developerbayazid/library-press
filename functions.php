@@ -129,3 +129,60 @@ function lp_delete_data( $id, $table_name ) {
 		)
 	);
 }
+
+/**
+ * Get books by bookShelf
+ *
+ * @param int $shelf_id shelf id.
+ * @return object
+ */
+function get_books_by_shelf( $shelf_id ) {
+	global $wpdb;
+
+	// Query to fetch books for a specific shelf.
+
+	$books = $wpdb->get_results(
+		$wpdb->prepare(
+			"
+		SELECT 
+			book.id AS book_id,
+			book.name AS book_name,
+			book.email,
+			book.publication,
+			book.amount,
+			book.description,
+			book.book_image
+		FROM 
+			{$wpdb->prefix}library_press_tbl_books AS book
+		INNER JOIN 
+			{$wpdb->prefix}library_press_tbl_book_shelf AS shelf
+		ON 
+			book.shelf_id = shelf.id
+		WHERE 
+			shelf.id = %d
+	",
+			$shelf_id
+		)
+	);
+
+	return $books;
+}
+
+/**
+ * Get single address
+ *
+ * @param int    $id row id.
+ * @param string $table_name database table name.
+ * @return object
+ */
+function lp_get_row( $id, $table_name ) {
+	global $wpdb;
+	$data = $wpdb->get_row(
+		$wpdb->prepare(
+			'SELECT * FROM %i WHERE id = %d',
+			$wpdb->prefix . $table_name,
+			$id
+		)
+	);
+	return $data;
+}

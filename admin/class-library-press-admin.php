@@ -95,7 +95,6 @@ class Library_Press_Admin {
 			'library-press-create-book-shelf',
 			'library-press-list-book-shelf',
 		);
-
 		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
 
 		if ( in_array( $page, $valid_pages, true ) ) {

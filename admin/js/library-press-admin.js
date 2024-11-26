@@ -4,6 +4,7 @@
      */
     new DataTable('#lp-book-list');
     new DataTable('#lp-book-shelf-list');
+    new DataTable('#lp-book-list-by-book-shelf');
 
     /**
      * Ajax handle data insert from book shelf

@@ -1,115 +1,36 @@
-=== Plugin Name ===
-Contributors: (this should be a list of wordpress.org userid's)
-Donate link: https://github.com/developerbayazid/
-Tags: comments, spam
-Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+LibraryPress - WordPress Bookshelf Management Plugin
 
-Here is a short description of the plugin. This should be no more than 150 characters. No markup here.
+LibraryPress is a WordPress plugin designed for managing books and bookshelves. It provides a user-friendly interface for adding, organizing, and displaying books, making it an ideal solution for libraries, bookstores, or personal collections. This plugin integrates seamlessly into the WordPress admin panel for easy management of book-related content.
 
-== Description ==
+Features
+Create and Manage Bookshelves: Organize your books into bookshelves for easy navigation and display.
+Add Books: Add books with details such as name, author, publication, price, and description.
+Book Covers: Option to upload and display book covers.
 
-Library Press is a powerful WordPress plugin designed to help you manage your books and bookshelves with ease. Whether you're an individual book collector or managing a large library, this plugin provides intuitive tools for organizing, categorizing, and tracking your books. Features include custom book entries, bookshelf creation, and seamless integration with your WordPress site for an organized and visually appealing library management system. Perfect for book enthusiasts, schools, and organizations!
+Installation
+Requirements
+WordPress version 5.0 or higher.
+PHP version 7.4 or higher.
+Steps to Install
+Download the LibraryPress plugin files.
+Upload the librarypress folder to the /wp-content/plugins/ directory of your WordPress installation.
+Activate the plugin through the 'Plugins' menu in WordPress.
+Once activated, you can begin managing your bookshelves and books from the WordPress admin panel.
 
-A few notes about the sections above:
+Usage
+Admin Dashboard
+After activating the plugin, navigate to the "LibraryPress" menu in the WordPress admin sidebar to access the following options:
 
--   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
--   "Tags" is a comma separated list of tags that apply to the plugin
--   "Requires at least" is the lowest version that the plugin will work on
--   "Tested up to" is the highest version that you've _successfully used to test the plugin_. Note that it might work on
-    higher versions... this is just the highest one you've verified.
--   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-    stable.
+Create Book: Add a new book to your collection by filling in details like name, email, publication, book cover, price, and description.
+Book List: View, edit, and delete books in your library.
+Create Bookshelf: Create a new bookshelf and assign books to it.
+Bookshelf List: View and manage the created bookshelves.
 
-        Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
+Changelog
+1.0.0
+Initial release with basic bookshelf and book management features.
+Contributing
+We welcome contributions to LibraryPress! If you have any suggestions or improvements, feel free to open an issue or submit a pull request.
 
-    if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-    for displaying information about the plugin. In this situation, the only thing considered from the trunk `readme.txt`
-    is the stable tag pointer. Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-    your in-development version, without having that information incorrectly disclosed about the current stable version
-    that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
-
-        If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-
-    you put the stable version, in order to eliminate any doubt.
-
-== Installation ==
-
-This section describes how to install the plugin and get it working.
-
-e.g.
-
-1. Upload `library-press.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
-
-== Frequently Asked Questions ==
-
-= A question that someone might have =
-
-An answer to that question.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
-
-== Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-   the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-   directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-   (or jpg, jpeg, gif).
-2. This is the second screen shot
-
-== Changelog ==
-
-= 1.0 =
-
--   A change since the previous version.
--   Another change.
-
-= 0.5 =
-
--   List versions from most recent at top to oldest at bottom.
-
-== Upgrade Notice ==
-
-= 1.0 =
-Upgrade notices describe the reason a user should upgrade. No more than 300 characters.
-
-= 0.5 =
-This version fixes a security related bug. Upgrade immediately.
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
-
-== A brief Markdown Example ==
-
-Ordered list:
-
-1. Some feature
-1. Another feature
-1. Something else about the plugin
-
-Unordered list:
-
--   something
--   something else
--   third thing
-
-Here's a link to [WordPress](http://wordpress.org/ 'Your favorite software') and one to [Markdown's Syntax Documentation][markdown syntax].
-Titles are optional, naturally.
-
-[markdown syntax]: http://daringfireball.net/projects/markdown/syntax 'Markdown is what the parser uses to process much of the readme file'
-
-Markdown uses email style notation for blockquotes and I've been told:
-
-> Asterisks for _emphasis_. Double it up for **strong**.
-
-`<?php code(); // goes in backticks ?>`
+License
+This plugin is licensed under the GPL-2.0 License.

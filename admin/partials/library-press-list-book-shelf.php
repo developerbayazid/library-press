@@ -1,5 +1,11 @@
 <?php
 // phpcs:ignoreFile
+if ( isset( $_REQUEST['view'] ) == true && isset( $_REQUEST['id'] ) ) {
+    require_once __DIR__.'/library-press-list-book-shelf-view.php';
+
+    die();
+}
+
 ?>
 <div class="wrap">
 	<div class="container">
@@ -30,7 +36,7 @@
                                             ?>
                                             <tr>
                                                 <td><?php echo $id; ?></td>
-                                                <td><?php echo $data->shelf_name; ?></td>
+                                                <td><a class="text-decoration-none" href="<?php echo admin_url('admin.php?page=library-press-list-book-shelf&view=true&id='.$data->id); ?>"><?php echo $data->shelf_name; ?></a></td>
                                                 <td><?php echo intval( $data->capacity ); ?></td>
                                                 <td><?php echo $data->shelf_location; ?></td>
                                                 <td>
