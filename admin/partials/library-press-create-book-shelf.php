@@ -4,7 +4,7 @@
 <div class="container py-5">
 	<div class="row justify-content-center">
 		<div class="col-lg-6">
-			<div class="card shadow">
+			<div class="card">
 				<div class="card-header bg-white">
 					<h3 class="text-center py-2 fw-bold"><?php _e( 'Create Book Shelf', 'library-press' ); ?></h3>
 				</div>
@@ -31,7 +31,7 @@
 						</div>
 						<?php wp_nonce_field( 'book-shelf-form' ); ?>
 						<input type="hidden" name="action" value="library_press_book_shelf_form">
-						<div class="d-grid">
+						<div class="mb-3 text-center">
 							<button id="book_shelf_form_btn" type="submit" class="btn btn-primary"><?php _e( 'Submit', 'library-press' ); ?></button>
 						</div>
 					</form>

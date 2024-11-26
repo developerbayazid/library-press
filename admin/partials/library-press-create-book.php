@@ -4,7 +4,7 @@ wp_enqueue_media();
 ?>
 <div class="wrap">
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card shadow" style="width: 50rem;">
+        <div class="card" style="width: 50rem;">
             <div class="card-header bg-white text-center">
                 <h3 class="fw-bold"><?php _e('Create Book', 'library-press'); ?></h3>
             </div>
@@ -53,7 +53,7 @@ wp_enqueue_media();
 
                     <!-- Book Image -->
                     <div class="mb-3">
-                        <label for="book-image" class="form-label fw-bold"><?php _e('Book Image *', 'library-press'); ?></label>
+                        <label for="book-image" class="form-label fw-bold"><?php _e('Book Cover Image *', 'library-press'); ?></label>
                         <input type="button" value="<?php esc_attr_e('Upload Image'); ?>" class="form-control" id="book-image" name="book-image" value="">
                         <img id="book_uploaded_img" class="d-none mt-2" style="width: 100px; height: 100px;" src="">
                         <input type="hidden" name="book_cover_image" id="book_cover_image">

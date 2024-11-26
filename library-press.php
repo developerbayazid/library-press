@@ -1,10 +1,6 @@
 <?php
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
+ * Registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
  * @link              https://github.com/developerbayazid
@@ -25,8 +21,8 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -60,36 +56,6 @@ function deactivate_library_press() {
 
 register_activation_hook( __FILE__, 'activate_library_press' );
 register_deactivation_hook( __FILE__, 'deactivate_library_press' );
-
-/**
- * Plugin Redirect Function
- */
-register_activation_hook( __FILE__, 'library_press_activation_plugin' );
-/**
- * Helper function for redirection
- *
- * @return void
- */
-function library_press_activation_plugin() {
-	add_option( 'library_press_activation_do_redirect', true );
-}
-
-add_action( 'admin_init', 'library_press_redirect' );
-
-/**
- * Helper function for redirection
- *
- * @return void
- */
-function library_press_redirect() {
-	if ( get_option( 'library_press_activation_do_redirect', false ) ) {
-		delete_option( 'library_press_activation_do_redirect' );
-		if ( ! isset( $_GET['active-multi'] ) ) {
-			wp_safe_redirect( admin_url( 'admin.php?page=library-press-create-book-shelf' ) );
-			exit;
-		}
-	}
-}
 
 /**
  * The core plugin class that is used to define internationalization,

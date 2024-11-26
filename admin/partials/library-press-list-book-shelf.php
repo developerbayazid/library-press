@@ -5,7 +5,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-                <div class="card shadow" style="min-width: 100%;">
+                <div class="card" style="min-width: 100%;">
                     <div class="card-header bg-white text-center">
                         <h2 class="fw-bold"><?php _e( 'Book Shelf List', 'library-press' ); ?></h2>
                     </div>
